@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w3-panel w3-center">
+  <h1><b>Admin Dashboard</b></h1>
+</div>
+<div class="w3-panel">
+  <div class="w3-bar w3-center">
+    <button class="w3-button w3-cyan" onclick="document.getElementById('id03').style.display='block'">Add Item</button>
+    <button class="w3-button w3-cyan" onclick="document.getElementById('id04').style.display='block'">Remove Item</button>
+    <a href="{{ url_for('pos.pos') }}" class="w3-button w3-cyan" >Point of Sale</a>
+  </div>
+</div>
+<div class="w3-panel">
+  <div>
+    {% if product %}
+    <label>{{ product['qr_code'] }} {{ product['item_name'] }} {{ product['price'] }}</label>
+    {% endif %}
+  </div>
+</div>
+
+<div id="id03" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+        <img src="{{ url_for('static', filename='Trans_Logo.png') }}" style="width:50%">
+      </div>
+
+      <form class="w3-container" method="post" action="{{ url_for('admin.add') }}">
+        <div class="w3-section">
+          <label><b>Product Code</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="number" placeholder="Add Product Code" name="p_code" required>
+          <label><b>Product Name</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Add Product Name" name="p_name" required>
+          <label><b>Product Unit Price</b></label>
+          <input class="w3-input w3-border" type="number" placeholder="Add Product Price" name="p_price" required>
+          <input class="w3-button w3-block w3-green w3-section w3-padding" type="submit" value="Add Item">
+        </div>
+      </form>
+    </div>
+</div>
+
+<div id="id04" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id04').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+        <img src="{{ url_for('static', filename='Trans_Logo.png') }}" style="width:50%">
+      </div>
+
+      <form class="w3-container" method="post" action="{{ url_for('admin.search') }}">
+        <div class="w3-section w3-center">
+          <label><b>Search</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="number" placeholder="Enter Product Code" name="p_code" required>
+          <input class="w3-button w3-block w3-green w3-section w3-padding" type="submit" value="Search">
+        </div>
+      </form>
+    </div>
+</div>
+{% endblock%}

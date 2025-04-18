@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w3-panel w3-center">
+    <h1><b>Purchases</b></h1>
+</div>
+
+<div class="w3-container w3-margin">
+    <h2>Receipt History</h2>
+    <table class="w3-table-all w3-card-4">
+        <tr>
+            <th>Receipt ID</th>
+            <th>Receipt Amount</th>
+            <th>Receipt Date</th>
+            <th>Actions</th>
+        </tr>
+        
+        {% for receipt in receipts %}
+        <tr>
+            <td>{{ receipt['receipt_id'] }}</td>
+            <td>{{ receipt['receipt_amount'] }}</td>
+            <td>{{ receipt['receipt_date'] }}</td>
+            <td>
+                <form method="get" action="{{ url_for('customer.history_detail') }}">
+                    <input type="hidden" name="receipt_no" value="{{ receipt['receipt_id'] }}">
+                    <button type="submit" class="w3-button w3-cyan w3-tiny">View Details</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

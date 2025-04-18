@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w3-container w3-border">
+  <div class="w3-container w3-cyan">
+  <h2>Login</h2>
+  </div>
+  <form method="post" class="w3-container">
+    <label for="username">Username</label>
+    <input name="username" id="username" required class="w3-input w3-border">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required class="w3-input w3-border">
+    <input type="submit" value="Log In">
+  </form>
+</div>
+{% endblock %}

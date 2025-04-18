@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w3-panel w3-center">
+    <h1><b>Thank you for your purchase</b></h1>
+</div>
+
+{% if total %}
+<div class="w3-panel w3-center">
+    <h2>Total Amount: ${{ total }}</h2>
+</div>
+{% endif %}
+
+{% if order_qr %}
+<div class="w3-panel w3-center">
+    <h2>Your Order QR Code:</h2>
+    <img src="{{ order_qr.png_data_uri(scale=5) }}" alt="Order QR Code">
+</div>
+{% endif %}
+
+<div class="w3-container w3-margin">
+    <h2>Receipt {{ receipt_no }}</h2>
+    <table class="w3-table-all w3-card-4">
+        <tr>
+            <th>Product Serial</th>
+            <th>Product Name</th>
+            <th>Price</th>
+        </tr>
+        {% for items in temp_cart %}
+        <tr>
+            <td>{{ items['qr_code'] }}</td>
+            <td>{{ items['item_name'] }}</td>
+            <td>{{ items['price'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<a class="w3-button" href="{{ url_for('pos.pos') }}">Return to POS</a>
+{% endblock %}

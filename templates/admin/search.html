@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w3-panel w3-center">
+  <h1><strong>Item Found</strong></h1>
+</div>
+<div class="w3-card-4 w3-margin w3-center" style="max-width: 33% margin: auto;">
+  <form class="w3-container" method="post" action="{{ url_for('admin.remove') }}">
+    <div class="w3-section">
+      <label for="p_code"><strong>Item Code</strong></label>
+      <input id="p_code" class="w3-input w3-border w3-margin-bottom" type="number" name="p_code" value="{{ product['qr_code'] }}" required>
+
+      <label for="p_name"><strong>Item Name</strong></label>
+      <input id="p_name" class="w3-input w3-border w3-margin-bottom" type="text" name="p_name" value="{{ product['item_name'] }}" readonly>
+
+      <label for="p_price"><strong>Item Price</strong></label>
+      <input id="p_price" class="w3-input w3-border w3-margin-bottom" type="number" name="p_price" value="{{ product['price'] }}" readonly>
+
+      <input class="w3-button w3-block w3-red w3-section w3-padding" type="submit" value="Remove Item">
+    </div>
+  </form>
+</div>
+{% endblock %}

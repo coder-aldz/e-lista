@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header section for the Point of Sale -->
+<div class="w3-panel w3-center">
+    <h1><b>Point of Sale</b></h1>
+</div>
+
+<!-- Form to add items to the cart -->
+<div class="w3-panel">
+    <form method="post" action="{{ url_for('pos.pos') }}">
+        <div class="w3-row-padding">
+            <div class="w3-half">
+                <!-- Input field for item code -->
+                <input class="w3-input w3-border" type="text" placeholder="Enter Item Code" name="p_code" required autofocus>
+            </div>
+            <div class="w3-half">
+                <!-- Submit button to add item to the cart -->
+                <input class="w3-button w3-input w3-border w3-cyan" type="submit" value="Add to Cart">
+            </div>
+        </div>
+    </form>
+</div>
+{% if error %}
+<div class="w3-panel w3-pale-red w3-border w3-margin w3-shadow">
+  <h3>{{ error }}!</h3>
+</div>
+{% endif %}
+
+<!-- Section displaying items currently in the cart -->
+<div class="w3-container w3-margin">
+    <h2>Items in Cart</h2>
+    <table class="w3-table-all w3-card-4">
+        <tr>
+            <th>Item No.</th>
+            <th>Product Serial</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Action</th> <!-- Added header for action column -->
+        </tr>
+        {% for no, items in merge %}
+        <tr>
+            <!-- Form to remove an item from the cart -->
+            <td>{{ no }}</td>
+            <td>{{ items['qr_code'] }}</td>
+            <td>{{ items['item_name'] }}</td>
+            <td>{{ items['price'] }}</td>
+            <td>
+                <!-- Button to remove the item from the cart -->
+                <form action="{{ url_for('pos.remove') }}" method="post">
+                <input type="hidden" name="p_code" value="{{ no }}">
+                <input class="w3-button w3-red w3-small" type="submit" value="Remove">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Checkout section -->
+<div class="w3-panel">
+    <form method="post" action="{{ url_for('pos.checkout') }}">
+        <div class="w3-row-padding">
+            <div class="w3-half">
+                <h3>Total Amount: ${{ total }}</h3>
+            </div>
+            <div class="w3-half">
+                <!-- Checkout button -->
+                <input class="w3-button w3-input w3-border w3-cyan w3-hover-light-blue" type="submit" value="Checkout">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

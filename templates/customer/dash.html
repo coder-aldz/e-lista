@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w3-panel w3-center">
+    <h1><b>Customer Dashboard</b></h1>
+</div>
+<div class="w3-panel">
+    <div class="w3-bar w3-center">
+        <a class="w3-button w3-cyan" href="{{ url_for('customer.history') }}" >View Receipt History</a>
+    </div>
+</div>
+{% endblock%}

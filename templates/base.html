@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %} - eLista</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!--Header section with logo and user authentication links-->
+    <header class="w3-bar w3-cyan w3-border w3-card-4">
+        <img src="{{ url_for('static', filename='Trans_Logo.png') }}" width="70" height="70" class="w3-bar-item">
+        <div class="w3-right">
+            {% if g.user %}
+            <!--Display username and logout option if user is logged in-->
+                {% if g.user['user_type'] == 'admin' %}
+                    <span class="w3-bar-item">{{ g.user['username'] }} <a href="{{ url_for('admin.dash') }}">{{ g.user['user_type'] }}</a></span>
+                    <a href="{{ url_for('auth.logout') }}" class="w3-bar-item w3-button w3-hover-light-blue">Log Out</a>
+                {% elif g.user['user_type'] == 'cashier' %}
+                    <span class="w3-bar-item">{{ g.user['username'] }} <a href="{{ url_for('pos.pos') }}">{{ g.user['user_type'] }}</a></span>
+                    <a href="{{ url_for('auth.logout') }}" class="w3-bar-item w3-button w3-hover-light-blue">Log Out</a>
+                {% else %}
+                    <span class="w3-bar-item">{{ g.user['username'] }} <a href="{{ url_for('customer.cust') }}">{{ g.user['user_type'] }}</a></span>
+                    <a href="{{ url_for('auth.logout') }}" class="w3-bar-item w3-button w3-hover-light-blue">Log Out</a>
+                {% endif %}
+            {% else %}
+            <!--Display register and login options if user is not logged in-->
+            <button class="w3-bar-item w3-button w3-hover-light-blue" onclick="document.getElementById('id02').style.display='block'">Register</button>
+            <button class="w3-bar-item w3-button w3-hover-light-blue" onclick="document.getElementById('id01').style.display='block'">Log In</button>
+            {% endif %}
+        </div>
+    </header>
+
+    <!--Modal for login form-->
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+            <div class="w3-center">
+                <!--Close button for the modal-->
+                <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+                <img src="{{ url_for('static', filename='Trans_Logo.png') }}" style="width:50%">
+            </div>
+            <form class="w3-container" method="post" action="{{ url_for('auth.login') }}">
+                <div class="w3-section">
+                    <!--Username input field-->
+                    <label for="username"><b>Username</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="username" id="username" required>
+
+                    <!--Password input field-->
+                    <label for="password"><b>Password</b></label>
+                    <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="password" id="password" required>
+
+                    <!--Submit button for login-->
+                    <input class="w3-button w3-block w3-green w3-section w3-padding" type="submit" value="Log In">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--Modal for Register-->
+    <div id="id02" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+            <div class="w3-center">
+                <!--Close button for the modal-->
+                <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+                <img src="{{ url_for('static', filename='Trans_Logo.png') }}" style="width:50%">
+            </div>
+            <form class="w3-container" method="post" action="{{ url_for('auth.register') }}">
+                <div class="w3-section">
+                    <!--Username input field-->
+                    <label for="username"><b>Username</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="username" id="username" required>
+
+                    <!--Password input field-->
+                    <label for="password"><b>Password</b></label>
+                    <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="password" id="password" required>
+
+                    <!--User type selection-->
+                    <div class="w3-row-padding w3-margin">
+                        <div class="w3-third">
+                            <input type="radio" name="usertype" value="customer" class="w3-radio" required checked>
+                            <label>Customer</label><br>
+                        </div>
+                        <div class="w3-third">
+                            <input type="radio" name="usertype" value="cashier" class="w3-radio">
+                            <label>Cashier</label><br>
+                        </div>
+                        <div class="w3-third">
+                            <input type="radio" name="usertype" value="admin" class="w3-radio">
+                            <label>Admin</label>
+                        </div>
+                    </div>
+
+                    <!--Submit button for login-->
+                    <input class="w3-button w3-block w3-green w3-section w3-padding" type="submit" value="Register">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!--Main content area-->
+    <main>
+        {% for message in get_flashed_messages() %}
+        <!--Display flash messages-->
+        <div class="w3-panel w3-red">{{ message }}</div>
+        {% endfor %}
+        <!--Content block for additional page content-->
+        {% block content %}{% endblock %}
+    </main>
+    <!--Footer section-->
+    <footer class="w3-panel w3-cyan w3-border w3-card-4">
+        <h5 class="w3-center">Footer</h5>
+        <p class="w3-center">Footer information goes here</p>
+    </footer>
+</body>
+</html>
